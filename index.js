@@ -110,7 +110,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-  res.send('Hello hero sunglass shop bd!')
+  res.send('Hello hero sunglass shop bd! are you ready to buy?')
 })
 
 app.listen(port, () => {
