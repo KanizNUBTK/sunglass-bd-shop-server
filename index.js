@@ -18,9 +18,59 @@ async function run() {
   try {
     await client.connect();
     console.log('database connected suceefully');
-    //const database = client.db('doctors_portal');
-    //const appointmentCollection = database.collection('appiontments');
-    //const usersCollection = database.collection('users');
+    const database = client.db('sunglass_shop');
+    const productCollection = database.collection('product');
+    const reviewCollection = database.collection('review');
+    const usersCollection = database.collection('users');
+
+    //add product
+    app.post('/addproduct',async(req,res)=>{
+        const product = req.body;
+        const result = await productCollection.insertOne(product);
+        //console.log(result);
+        res.json(result);
+    })
+    //recive review
+    app.post('/addreview',async(req,res)=>{
+        const product = req.body;
+        const result = await reviewCollection.insertOne(product);
+        //console.log(result);
+        res.json(result)
+    })
+    //save login user data
+    app.post('/users', async(req,res)=>{
+      const user = req.body;
+      const result = await usersCollection.insertOne(user);
+      console.log(result);
+      res.json(result);
+    });
+    //secure admin
+    app.get('/users/:email', async(req,res)=>{
+      const email=req.params.email;
+      const query = {email: email};
+      const user = await usersCollection.findOne(query);
+      let isAdmin = false;
+      if(user.role === 'admin'){
+        isAdmin= true;
+      }
+      res.json({admin: isAdmin});
+    });
+     //admin update
+     app.put('/users/admin', async(req,res)=>{
+      const user = req.body;
+      console.log('put', user);
+      const filter = {email: user.email};
+      const updateDoc = {$set: {role: 'admin'}};
+      const result = await usersCollection.updateOne(filter, updateDoc);
+      res.json(result);
+     });
+    //display products
+    app.get('/allProducts',async(req,res)=>{
+       const cursor = productCollection.find({});
+       const products = await cursor.toArray(); 
+       //console.log(products); 
+       res.send(products);
+    });
 
   
 
