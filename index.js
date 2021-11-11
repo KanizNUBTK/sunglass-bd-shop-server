@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors');
 const port = process.env.PORT || 5000;
 require('dotenv').config();
+const ObjectId = require("mongodb").ObjectId;
 
 //middleware
 app.use(cors());
@@ -22,6 +23,7 @@ async function run() {
     const productCollection = database.collection('product');
     const reviewCollection = database.collection('review');
     const usersCollection = database.collection('users');
+    const ordersCollection = database.collection('orders');
 
     //add product
     app.post('/addproduct',async(req,res)=>{
@@ -41,6 +43,13 @@ async function run() {
     app.post('/users', async(req,res)=>{
       const user = req.body;
       const result = await usersCollection.insertOne(user);
+      console.log(result);
+      res.json(result);
+    });
+    //save orders for customers
+    app.post('/addNewOrder', async(req,res)=>{
+      const user = req.body;
+      const result = await ordersCollection.insertOne(user);
       console.log(result);
       res.json(result);
     });
@@ -71,7 +80,27 @@ async function run() {
        //console.log(products); 
        res.send(products);
     });
-
+    //view orders on table
+    app.get('/addNewOrder',async(req,res)=>{
+       const cursor = ordersCollection.find({});
+       const orders = await cursor.toArray(); 
+       //console.log(products); 
+       res.send(orders);
+    });
+    app.get('/addreview',async(req,res)=>{
+      const cursor = reviewCollection.find({});
+       const reviews = await cursor.toArray(); 
+       //console.log(products); 
+       res.send(reviews);
+    });
+    //single product display
+    app.get("/addproduct", async (req, res) => {
+      // console.log(req.query);
+      const cursor = productCollection.find({});
+      const products = await cursor.toArray(); 
+      //console.log(products); 
+      res.send(products);
+    });
   
 
   } finally {
