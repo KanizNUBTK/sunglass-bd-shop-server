@@ -43,7 +43,7 @@ async function run() {
     app.post('/users', async(req,res)=>{
       const user = req.body;
       const result = await usersCollection.insertOne(user);
-      console.log(result);
+      //console.log(result);
       res.json(result);
     });
     //save orders for customers
@@ -62,12 +62,12 @@ async function run() {
       if(user.role === 'admin'){
         isAdmin= true;
       }
-      res.json({admin: isAdmin});
+      res.send({admin: isAdmin});
     });
      //admin update
      app.put('/users/admin', async(req,res)=>{
       const user = req.body;
-      console.log('put', user);
+      //console.log('put', user);
       const filter = {email: user.email};
       const updateDoc = {$set: {role: 'admin'}};
       const result = await usersCollection.updateOne(filter, updateDoc);
@@ -84,10 +84,10 @@ async function run() {
     app.get('/addNewOrder',async(req,res)=>{
       const email = req.query.email;
       const query = {email: email};
-      console.log(query);
+      //console.log(query);
       const cursor = ordersCollection.find(query);
       const orders = await cursor.toArray(); 
-      console.log(orders);
+      //console.log(orders);
       res.json(orders);
     });
     //display reviews
