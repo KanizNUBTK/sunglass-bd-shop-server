@@ -96,7 +96,7 @@ async function run() {
        res.send(reviews);
     });
     //single product display
-    app.get("/addproduct", async (req, res) => {
+    app.get('/addproduct', async (req, res) => {
       // console.log(req.query);
       const cursor = productCollection.find({});
       const products = await cursor.toArray(); 
