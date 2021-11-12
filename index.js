@@ -53,17 +53,7 @@ async function run() {
       console.log('product add=',result);
       res.json(result);
     });
-    //secure admin
-    app.get('/users/:email', async(req,res)=>{
-      const email=req.params.email;
-      const query = {email: email};
-      const user = await usersCollection.findOne(query);
-      let isAdmin = false;
-      if(user.role === 'admin'){
-        isAdmin = true;
-      }
-      res.json({admin: isAdmin});
-    });
+  
      //admin update
      app.put('/users/admin', async(req,res)=>{
       const user = req.body;
@@ -90,6 +80,13 @@ async function run() {
       //console.log(orders);
       res.json(orders);
     });
+    //view orders for owner
+    app.get('/addNewOrder',async(req,res)=>{
+      const cursor = ordersCollection.find({});
+      const orders = await cursor.toArray(); 
+      //console.log(orders);
+      res.json(orders);
+    });
     //display reviews
     app.get('/addreview',async(req,res)=>{
       const cursor = reviewCollection.find({});
@@ -105,6 +102,18 @@ async function run() {
       //console.log(products); 
       res.send(products);
     });
+
+      //secure admin
+      app.get('/users/:email', async(req,res)=>{
+        const email=req.params.email;
+        const query = {email: email};
+        const user = await usersCollection.findOne(query);
+        let isAdmin = false;
+        if(user.role === 'admin'){
+          isAdmin = true;
+        }
+        res.json({admin: isAdmin});
+      });
   
 
   } finally {
