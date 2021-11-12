@@ -50,7 +50,7 @@ async function run() {
     app.post('/addNewOrder', async(req,res)=>{
       const user = req.body;
       const result = await ordersCollection.insertOne(user);
-      console.log(result);
+      console.log('product add=',result);
       res.json(result);
     });
     //secure admin
