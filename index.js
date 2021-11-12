@@ -84,7 +84,7 @@ async function run() {
     app.get('/addNewOrder',async(req,res)=>{
       const cursor = ordersCollection.find({});
       const orders = await cursor.toArray(); 
-      //console.log(orders);
+      console.log(orders);
       res.json(orders);
     });
     //display reviews
