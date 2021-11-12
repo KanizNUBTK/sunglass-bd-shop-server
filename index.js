@@ -63,6 +63,13 @@ async function run() {
       const result = await usersCollection.updateOne(filter, updateDoc);
       res.json(result);
      });
+      //view orders for owner
+    app.get('/addNewOrder',async(req,res)=>{
+      const cursor = ordersCollection.find({});
+      const orders = await cursor.toArray(); 
+      //console.log('orders',orders);
+      res.send(orders);
+    });
     //display products
     app.get('/allProducts',async(req,res)=>{
        const cursor = productCollection.find({});
@@ -80,13 +87,7 @@ async function run() {
       //console.log(orders);
       res.json(orders);
     });
-    //view orders for owner
-    app.get('/addNewOrder',async(req,res)=>{
-      const cursor = ordersCollection.find({});
-      const orders = await cursor.toArray(); 
-      console.log(orders);
-      res.json(orders);
-    });
+   
     //display reviews
     app.get('/addreview',async(req,res)=>{
       const cursor = reviewCollection.find({});
