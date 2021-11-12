@@ -82,11 +82,15 @@ async function run() {
     });
     //view orders on table
     app.get('/addNewOrder',async(req,res)=>{
-       const cursor = ordersCollection.find({});
-       const orders = await cursor.toArray(); 
-       //console.log(products); 
-       res.send(orders);
+      const email = req.query.email;
+      const query = {email: email};
+      console.log(query);
+      const cursor = ordersCollection.find(query);
+      const orders = await cursor.toArray(); 
+      console.log(orders);
+      res.json(orders);
     });
+    //display reviews
     app.get('/addreview',async(req,res)=>{
       const cursor = reviewCollection.find({});
        const reviews = await cursor.toArray(); 
