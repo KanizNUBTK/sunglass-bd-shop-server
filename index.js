@@ -37,7 +37,7 @@ async function run() {
         const product = req.body;
         const result = await reviewCollection.insertOne(product);
         //console.log(result);
-        res.json(result)
+        res.send(result);
     })
     //save login user data
     app.post('/users', async(req,res)=>{
@@ -60,9 +60,9 @@ async function run() {
       const user = await usersCollection.findOne(query);
       let isAdmin = false;
       if(user.role === 'admin'){
-        isAdmin= true;
+        isAdmin = true;
       }
-      res.send({admin: isAdmin});
+      res.json({admin: isAdmin});
     });
      //admin update
      app.put('/users/admin', async(req,res)=>{
