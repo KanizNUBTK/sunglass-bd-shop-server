@@ -50,7 +50,7 @@ async function run() {
     app.post('/addNewOrder', async(req,res)=>{
       const user = req.body;
       const result = await ordersCollection.insertOne(user);
-      console.log('product add=',result);
+      //console.log('product add=',result);
       res.json(result);
     });
   
@@ -115,7 +115,14 @@ async function run() {
         }
         res.json({admin: isAdmin});
       });
-  
+      //delete api
+      app.delete('/addNewOrder/:id', async(req,res)=>{
+        const id = req.params.id;
+        const query = { _id : ObjectId(id) };
+        const result = await ordersCollection.deleteOne(query);
+        //console.log('deleting id', result);
+        res.json(result);
+      })
 
   } finally {
     //await client.close();
