@@ -125,7 +125,7 @@ async function run() {
       })
 
       // status update
-  app.put('/addNewOrder/statusUpdate/:id', async (req, res) => {
+  app.put('/addNewOrder/onerOrders/statusUpdate/:id', async (req, res) => {
     const filter = { _id: ObjectId(req.params.id) };
     console.log(req.params.id);
     const result = await ordersCollection.updateOne(filter, {
