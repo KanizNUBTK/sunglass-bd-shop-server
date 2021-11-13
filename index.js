@@ -64,7 +64,7 @@ async function run() {
       res.json(result);
      });
       //view orders for owner
-    app.get('/addNewOrder',async(req,res)=>{
+    app.get('/addNewOrder/onerOrders',async(req,res)=>{
       const cursor = ordersCollection.find({});
       const orders = await cursor.toArray(); 
       //console.log('orders',orders);
